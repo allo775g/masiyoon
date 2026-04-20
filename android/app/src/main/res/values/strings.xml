@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">TaskYawm</string>
+    <string name="title_activity_main">TaskYawm</string>
+    <string name="package_name">com.taskyawm.app</string>
+    <string name="custom_url_scheme">com.taskyawm.app</string>
+</resources>
