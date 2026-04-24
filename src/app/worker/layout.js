@@ -23,12 +23,12 @@ export default function WorkerLayout({ children }) {
       return;
     }
 
-    // ٢. التحقق من بصمة الوجه للجلسة الحالية (تعاد عند تحديث الصفحة)
-    const isFaceVerified = window.sessionStorage.getItem("masiyoon_face_verified");
-    if (!isFaceVerified) {
-      router.push("/worker/login/face-check");
-      return;
-    }
+    // ٢. التحقق من بصمة الوجه للجلسة الحالية (تم إيقافها مؤقتاً للمعاينة)
+    // const isFaceVerified = window.sessionStorage.getItem("masiyoon_face_verified");
+    // if (!isFaceVerified) {
+    //   router.push("/worker/login/face-check");
+    //   return;
+    // }
 
     setIsReady(true);
   }, [user, pathname, router]);
