@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useApp } from "@/context/AppContext";
 import { useRouter } from "next/navigation";
-import { Menu, MessageSquare, MapPin, User, CalendarDays, Star, Megaphone, Bell, ScanFace, ShieldAlert, ShieldCheck, GraduationCap, Headset, FileText, Settings, LogOut, Crosshair, Sparkles, Navigation, CheckCircle2 } from "lucide-react";
+import { Menu, MessageSquare, User, Star, Bell, ScanFace, ShieldAlert, Settings, LogOut, Sparkles, Navigation, CheckCircle2 } from "lucide-react";
 
 export default function WorkerDashboard() {
   const { user, tasks, setUser } = useApp();

@@ -123,9 +123,14 @@ export default function WorkerLogin() {
             <input className="input-premium" placeholder="رقم الهوية الوطنية" value={idNumber} onChange={e => setIdNumber(e.target.value)} />
             
             <select className="input-premium" value={profession} onChange={e => setProfession(e.target.value)}>
-                <option value="تكييف">متخصص تكييف ❄️</option>
+                <option value="تكييف">تكييف وتبريد ❄️</option>
                 <option value="سباكة">سباكة وصرف 🚰</option>
-                <option value="كهرباء">كهربائي فني ⚡</option>
+                <option value="كهرباء">أعطال كهربائية ⚡</option>
+                <option value="نقاشة">دهانات وديكور 🎨</option>
+                <option value="نجارة">نجارة وأثاث 🔨</option>
+                <option value="أجهزة منزلية">أجهزة منزلية 📺</option>
+                <option value="تنظيف">نظافة عامة 🧹</option>
+                <option value="أخرى">صيانة أخرى 🛠️</option>
             </select>
             
             <label style={{ position: "relative", height: "140px", background: "rgba(255,255,255,0.02)", borderRadius: "20px", border: "2px dashed var(--glass-border)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", cursor: "pointer", overflow: "hidden" }}>
