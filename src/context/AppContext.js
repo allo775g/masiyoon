@@ -21,7 +21,7 @@ export function AppProvider({ children }) {
 
     setLoading(true);
     try {
-        const userRef = doc(db, "masiyoon_unified_users", userData.phone);
+        const userRef = doc(db, "masiyoon_prod_users", userData.phone);
         await setDoc(userRef, { ...userData, lastLogin: Date.now() }, { merge: true });
         
         localStorage.setItem("masiyoon_user", JSON.stringify(userData));
@@ -37,7 +37,7 @@ export function AppProvider({ children }) {
   const loginWithPhone = async (phone) => {
     setLoading(true);
     try {
-        const userRef = doc(db, "masiyoon_unified_users", phone);
+        const userRef = doc(db, "masiyoon_prod_users", phone);
         const userSnap = await getDoc(userRef);
         
         if (userSnap.exists()) {
@@ -58,7 +58,7 @@ export function AppProvider({ children }) {
     const saved = localStorage.getItem("masiyoon_user");
     if (saved) setUserState(JSON.parse(saved));
     
-    const q = query(collection(db, "masiyoon_unified_tasks"), orderBy("date", "desc"));
+    const q = query(collection(db, "masiyoon_prod_tasks"), orderBy("date", "desc"));
     const unsub = onSnapshot(q, (snap) => {
       setTasks(snap.docs.map(d => ({ id: d.id, ...d.data() })));
       setLoading(false);
@@ -67,11 +67,11 @@ export function AppProvider({ children }) {
   }, []);
 
   const addTask = async (taskData) => {
-    await addDoc(collection(db, "masiyoon_unified_tasks"), { ...taskData, date: Date.now() });
+    await addDoc(collection(db, "masiyoon_prod_tasks"), { ...taskData, date: Date.now() });
   };
 
   const updateTask = async (taskId, updates) => {
-    const taskRef = doc(db, "masiyoon_unified_tasks", taskId);
+    const taskRef = doc(db, "masiyoon_prod_tasks", taskId);
     await setDoc(taskRef, { ...updates, lastUpdated: Date.now() }, { merge: true });
   };
 
