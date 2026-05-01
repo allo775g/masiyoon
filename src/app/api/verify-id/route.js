@@ -10,8 +10,8 @@ export async function POST(req) {
             return NextResponse.json({ error: "صورة الهوية مفقودة" }, { status: 400 });
         }
 
-        // استخدام الدالة الجديدة مع تمرير الرقم كبديل آمن
-        const result = await verifyIDCard(imageBase64, "image/jpeg", idNumber);
+        // استخدام الدالة الجديدة مع إجبار المحرك على الاستخراج الحقيقي (بدون تمرير رقم للتحايل)
+        const result = await verifyIDCard(imageBase64, "image/jpeg");
 
         if (!result) {
             return NextResponse.json({ error: "فشل تحليل الهوية" }, { status: 500 });

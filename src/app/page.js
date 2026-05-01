@@ -13,12 +13,14 @@ export default function Home() {
   const [phone, setPhone] = useState("");
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
-  // Auto-redirect if logged in as client
+  // Removed auto-redirect to allow browsing services
+  /*
   useEffect(() => {
     if (user && user.role === 'client') {
       router.push("/tasks");
     }
   }, [user, router]);
+  */
 
   const handleAuth = async (role) => {
     if (!phone || phone.length < 9) return alert("يرجى إدخال رقم جوال صحيح (مثال: 0500000000)");
@@ -65,14 +67,22 @@ export default function Home() {
             <h1 style={{ margin: 0, fontSize: "1.4rem", fontWeight: "900", color: "#1e3a8a" }}>مَصيون</h1>
         </div>
         
-        <div>
+        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+            {user && user.role === 'client' && (
+                <Link href="/tasks" style={{ textDecoration: "none" }}>
+                    <button style={{ padding: "10px 18px", borderRadius: "14px", backgroundColor: "#eff6ff", color: "#1e3a8a", border: "none", fontWeight: "900", fontSize: "0.9rem", display: "flex", alignItems: "center", gap: "8px", cursor: "pointer" }}>
+                        <Clock size={16} /> طلباتي
+                    </button>
+                </Link>
+            )}
+            
             {user ? (
-                <button onClick={() => setUser(null)} style={{ padding: "8px 16px", borderRadius: "12px", backgroundColor: "#fef2f2", color: "#ef4444", border: "none", fontWeight: "800", display: "flex", alignItems: "center", gap: "6px", cursor: "pointer" }}>
-                    خروج <LogOut size={16} />
+                <button onClick={() => setUser(null)} style={{ padding: "10px", borderRadius: "12px", backgroundColor: "#fef2f2", color: "#ef4444", border: "none", fontWeight: "800", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
+                    <LogOut size={18} />
                 </button>
             ) : (
                 <button onClick={() => setShowLogin(true)} style={{ padding: "10px 20px", borderRadius: "14px", backgroundColor: "#1e3a8a", color: "white", border: "none", fontWeight: "800", boxShadow: "0 4px 15px rgba(30, 58, 138, 0.2)", cursor: "pointer", transition: "all 0.2s" }}>
-                    تسجيل الدخول
+                    دخول
                 </button>
             )}
         </div>

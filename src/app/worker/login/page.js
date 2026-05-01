@@ -71,14 +71,17 @@ export default function WorkerLogin() {
                 const { idNumber: extractedId, isExpired, fullName } = aiData.data;
                 
                 // دالة لتحويل الأرقام العربية (الهندية) الموجدوة في الهوية إلى أرقام إنجليزية
-                const toEnglishDigits = str => str ? str.replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d)) : "";
+                const toEnglishDigits = val => {
+                    const str = String(val || "").trim().replace(/\s/g, '');
+                    return str.replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d));
+                };
                 
                 const normalizedExtractedId = toEnglishDigits(extractedId);
                 const normalizedInputId = toEnglishDigits(idNumber);
 
-                // التأكد من تطابق رقم الهوية المدخل مع المستخرج من الصورة
-                if (normalizedExtractedId && normalizedExtractedId.includes(normalizedInputId.substring(0, 4))) {
-                    if (isExpired) {
+                // التأكد من تطابق رقم الهوية المدخل مع المستخرج من الصورة بشكل دقيق (10 أرقام)
+                if (normalizedExtractedId && normalizedExtractedId === normalizedInputId) {
+                    if (isExpired === true || isExpired === "true") {
                         alert("🚫 الهوية منتهية الصلاحية! يرجى تقديم هوية سارية المفعول.");
                         return;
                     }
@@ -87,7 +90,7 @@ export default function WorkerLogin() {
                     window.sessionStorage.setItem("temp_id_b64", base64Data); // حفظ مؤقت للمطابقة
                     router.push("/worker/login/face-check");
                 } else {
-                    alert(`🚫 رقم الهوية في الصورة (${normalizedExtractedId}) لا يطابق الرقم المدخل (${normalizedInputId})`);
+                    alert(`🚫 رقم الهوية في الصورة لا يطابق الرقم المدخل`);
                 }
             } else {
                 alert(`🚫 عذراً، المشكلة من السيرفر: ${aiData.error || "لم نتمكن من قراءة الهوية"}`);
@@ -139,7 +142,8 @@ export default function WorkerLogin() {
                 ) : (
                     <>
                         <span style={{ fontSize: "2rem" }}>📸</span>
-                        <span style={{ fontSize: "0.8rem", opacity: 0.5, marginTop: "10px" }}>التقط صورة الهوية (الأصل)</span>
+                        <span style={{ fontSize: "0.8rem", opacity: 0.8, marginTop: "10px" }}>التقط صورة الهوية (الأصل)</span>
+                        <span style={{ fontSize: "0.7rem", color: "var(--primary)", marginTop: "4px" }}>⚠️ يجب أن تكون الصورة أفقية (بالعرض)</span>
                     </>
                 )}
                 <input type="file" accept="image/*" hidden onChange={handleIdChange} />

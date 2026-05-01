@@ -8,6 +8,7 @@ export default function FaceVerification() {
   const { user, setUser } = useApp();
   const router = useRouter();
   const [status, setStatus] = useState("init");
+  const [rejectReason, setRejectReason] = useState("");
   const videoRef = useRef(null);
 
   useEffect(() => {
@@ -58,8 +59,8 @@ export default function FaceVerification() {
             router.push("/worker");
           }, 1500);
       } else {
-          setStatus("init");
-          alert("🚫 " + (data.data?.reason || "الوجه لا يطابق صورة الهوية المرفقة!"));
+          setStatus("failed");
+          setRejectReason(data.data?.reason || "لم يتم التعرف على تطابق بين الوجه والصورة.");
       }
     } catch (e) {
       setStatus("init");
@@ -90,13 +91,28 @@ export default function FaceVerification() {
         </div>
 
         {status === "init" && (
-            <button onClick={startScan} className="premium-button pulse-ai" style={{ width: "100%", padding: "1.3rem", borderRadius: "18px" }}>
+            <button onClick={startScan} className="premium-button pulse-ai" style={{ width: "100%", padding: "1.3rem", borderRadius: "18px", background: "var(--primary)", border: "none", color: "#fff", cursor: "pointer", fontWeight: "bold", fontSize: "1.1rem" }}>
                 افتح الكاميرا للمطابقة
             </button>
         )}
 
-        {status === "scanning" && <h3 style={{ color: "#3b82f6" }}>جاري مطابقة الوجه مع الإقامة...</h3>}
+        {status === "scanning" && <h3 style={{ color: "#3b82f6" }}>جاري مطابقة الوجه مع الإقامة بدقة الذكاء الاصطناعي...</h3>}
         {status === "success" && <h3 style={{ color: "#10b981" }}>تمت المطابقة بنجاح! جاري الدخول..</h3>}
+        
+        {status === "failed" && (
+            <div className="animate-fade-in" style={{ background: "rgba(239, 68, 68, 0.1)", border: "2px solid #ef4444", padding: "1.5rem", borderRadius: "12px", marginTop: "1rem" }}>
+                <h3 style={{ color: "#ef4444", fontSize: "1.5rem", marginBottom: "0.5rem" }}>🚨 تم الحظر!</h3>
+                <p style={{ color: "#fca5a5", fontSize: "1.1rem", marginBottom: "1rem", lineHeight: "1.6" }}>
+                    محرك <strong>مَصيون</strong> الأمني لك بالمرصاد 👁️<br/>
+                    تبين أن الوجه لا يطابق الصورة المرفقة في الهوية.<br/>
+                    <span style={{ fontSize: "0.9rem", color: "#ef4444", opacity: 0.8 }}>السبب الفني: {rejectReason}</span><br/><br/>
+                    يُمنع منعاً باتاً التلاعب أو انتحال شخصية عامل آخر لضمان أمان عملائنا.
+                </p>
+                <button onClick={() => setStatus("init")} style={{ background: "#ef4444", color: "#fff", border: "none", padding: "1rem", borderRadius: "8px", cursor: "pointer", width: "100%", fontWeight: "bold" }}>
+                    أعد المحاولة
+                </button>
+            </div>
+        )}
 
         <style>{` @keyframes faceScan { 0% { top: 10%; } 50% { top: 90%; } 100% { top: 10%; } } `}</style>
       </div>

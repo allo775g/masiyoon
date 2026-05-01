@@ -88,7 +88,8 @@ export default function ClientDashboard() {
                 {myTasks.map(task => {
                     const badge = getStatusBadge(task.status);
                     return (
-                        <div key={task.id} style={{ backgroundColor: "white", borderRadius: "20px", padding: "20px", boxShadow: "0 4px 15px rgba(0,0,0,0.03)", border: "1px solid #f1f5f9" }}>
+                        <Link href={`/tasks/${task.id}`} key={task.id} style={{ textDecoration: "none" }}>
+                            <div style={{ backgroundColor: "white", borderRadius: "20px", padding: "20px", boxShadow: "0 4px 15px rgba(0,0,0,0.03)", border: "1px solid #f1f5f9" }}>
                             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "15px" }}>
                                 <span style={{ backgroundColor: badge.bg, color: badge.color, padding: "6px 14px", borderRadius: "100px", fontSize: "0.8rem", fontWeight: "800", display: "flex", alignItems: "center", gap: "6px" }}>
                                     {task.status === "completed" ? <CheckCircle2 size={14} /> : <Clock size={14} />} 
@@ -138,9 +139,10 @@ export default function ClientDashboard() {
                                 </button>
                             )}
                         </div>
-                    );
-                })}
-            </div>
+                    </Link>
+                );
+            })}
+        </div>
         )}
       </main>
 
